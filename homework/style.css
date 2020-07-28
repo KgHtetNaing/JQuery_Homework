@@ -1,0 +1,71 @@
+*{
+	margin:0;
+	padding:0;
+}
+
+#navhead{
+	background-color: silver;
+	margin: 0;
+}
+
+div .sign{
+	position: absolute;
+	top: 20%;
+	left: 35%;
+	width: 30%;
+	
+	background-color: white;
+	color: black;
+	
+	text-align: center;
+	opacity: 70%;
+	overflow: hidden;
+
+	
+	
+}
+
+div #btnhead{
+	margin-left: 0px;
+	color:black;
+	background-color: orange;
+	padding: 0px 30px;
+	margin-bottom: 25px;
+	border:none;
+}
+
+#bodyhead{
+	text-align: center;
+	padding-top: 15px;
+}
+a{
+	float: right;
+	padding-right: 6px;
+}
+
+.bodytext{
+	text-align: center;
+}
+.price{
+	color: orange;
+}
+
+button{
+	border:none;
+}
+
+button:hover{
+	opacity: 70%;
+	
+}
+
+.qty{
+	width: 40px;
+	border:none;
+	margin-left: 50px;
+	color: orange;
+}
+
+.tablephoto{
+	margin-right: 30px;
+}

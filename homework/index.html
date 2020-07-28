@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>localStorageExercise</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="icon/icofont/icofont.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			getData();
+
+			$('.addtocart').click(function(){
+				var id=$(this).data('id');
+				var photo=$(this).data('photo');
+				var name=$(this).data('name');
+				var price=$(this).data('price');
+				alert(`id=${id} name=${name} price=${price}`);
+				var item={id:id,name:name,price:price,photo:photo,qty:1};
+				var lsitem=localStorage.getItem('Items');
+				var itemArr;
+				if (lsitem==null){
+					var itemArr=Array();
+				}else{
+					itemArr = JSON.parse(lsitem);
+				}
+				var exit;
+				$.each(itemArr,function(i,v){
+					if(id==v.id){
+						v.qty++;
+						exit=1
+					}
+				})
+
+				if(!exit){
+					itemArr.push(item);
+				}
+				localStorage.setItem('Items',JSON.stringify(itemArr));
+				getData();
+			})
+
+			$('#tablebody').on('click','.remove',function(){
+				alert('item remove');
+				var id= $(this).data('id');
+				var lsitem=localStorage.getItem('Items');
+				var itemArr=JSON.parse(lsitem);
+				itemArr.splice(id,1);
+				localStorage.setItem('Items',JSON.stringify(itemArr));
+				getData();
+			})
+
+			function getData(){
+				var lsitem=localStorage.getItem('Items');
+				var html="";
+				var total=0;
+				if (lsitem != null){
+					itemArr=JSON.parse(lsitem);
+					$.each(itemArr,function(i,v){
+						var subtotal=v.qty*v.price;
+						total+=subtotal;
+						html +=`<tr>
+								
+								
+								<td><img src="${v.photo}" width="50px" height = "50px" class="tablephoto"></td>
+								<td>${v.name}<br>${v.price}$ <br><button class="remove" data-id="${i}">remove</button></td>
+								<td></td>
+								<td><input type="number" value="${v.qty}" class="qty" data-id="${i}"></td>
+								<td></td>
+								</tr>`;
+					})
+					html+=`<tr>
+								<td colspan="6">
+								<center> Your Total: ${total}$
+								</center>
+								</tr>`;
+							$('#tablebody').html(html);
+				}else{
+
+				}
+			}
+			$('#tablebody').on('change','.qty',function(){
+			var id=$(this).data('id');
+			var qty=$(this).val();
+			var lsitem=localStorage.getItem('Items');
+			var itemArr=JSON.parse(lsitem);
+			itemArr[id].qty=qty;
+
+			if(qty==0){
+				itemArr.splice(id,1);
+			}
+
+			
+			localStorage.setItem('Items',JSON.stringify(itemArr));
+			getData();
+
+		})
+
+		})
+	</script>
+	
+</head>
+<body>
+	<div>
+		<h3 id="navhead" style="text-align: center;">Comfy<span style="color:Orange">House</span>
+		<a href=""><i class="icofont-cart-alt"></i></a>
+		</h3>
+
+	</div>
+	<div id="banner">
+		<img src="images/1.jpg" width="100%;" height="500px">
+		<div class="sign">
+			<h2>Furniture Collection</h2><br>
+
+			<button id="btnhead">Shop Now</button>
+		</div>
+
+		<h3 id="bodyhead">Our Products</h3>
+		<div class="container">
+			<div class="row">
+				<div class="col-4">
+					<button data-id="1" data-photo="images/p1.jpg" data-name="Queen Bed" data-price="16" class="addtocart" ><img src="images/p1.jpg" class="img-fluid productimg"></button>
+					<div class="bodytext">
+						<p>Queen Bed <br><span class="price"> $16</span></p>
+						
+					</div>
+				</div>
+				<div class="col-4">
+					<button data-id="2" data-photo="images/p2.jpg" data-name="Double Bed" data-price="19" class="addtocart"><img src="images/p2.jpg" class="img-fluid productimg"></button>
+					<div class="bodytext">
+						<p>Double Bed <br><span class="price"> $19</span></p>
+						
+					</div>
+				</div>
+				<div class="col-4">
+					<button data-id="3" data-photo="images/p1.jpg" data-name="Single Bed" data-price="25" class="addtocart"><img src="images/p1.jpg" class="img-fluid productimg"></button>
+					<div class="bodytext">
+						<p>Queen Bed <br><span class="price"> $25</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3 style="text-align: center;">Your cart</h3>
+		<table  style="margin-left: 550px">
+			<thead>
+				<tr>
+				
+				</tr>
+			</thead>
+			<tbody id="tablebody">
+				
+			</tbody>
+		</table>
+
+	</div>
+</body>
+</html>
